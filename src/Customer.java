@@ -10,7 +10,9 @@ public class Customer {
         checking = new Account(Account.Type.Checking);
         saving = new Account(Account.Type.Savings);
     }
-
+    public void setName(String newName) {
+        name = newName;
+    }
     public void setPin(int newPin) {
         pin = newPin;
     }
