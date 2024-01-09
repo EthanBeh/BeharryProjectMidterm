@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class ATM {
@@ -65,6 +66,58 @@ public class ATM {
     }
 
     public void interFace() {
+        System.out.println("What would you like to do today?");
+        System.out.println("1. Withdraw money\n2. Deposit money\n3. Transfer money between account\n4. Get account balances\n5. Get transaction history\n6. Change PIN\n7. Exit");
+        int answer = Integer.parseInt(s.nextLine());
+        while (answer != 7) {
+            if (answer == 1) {
+                System.out.print("Would you like to withdraw from your (c)hecking or (s)avings account?: ");
+                String ans = s.nextLine();
+                while (!ans.toLowerCase().equals("c") && !ans.toLowerCase().equals("s") && !ans.toLowerCase().equals("checking") && !ans.toLowerCase().equals("savings")) {
+                    System.out.print("Please input a valid choice: ");
+                    ans = s.nextLine();
+                }
+                System.out.print("How much would you like to withdraw?: ");
+                int money = Integer.parseInt(s.nextLine());
+                if (ans.toLowerCase().equals("c")) {
+                    if (c.getChecking().addMoney(-money)) {
+                        System.out.println("Money withdrawn successfully!");
+                    } else {
+                        System.out.println("Failed to withdraw money");
+                    }
+                } else if (ans.toLowerCase().equals("s")) {
+                    if (c.getSavings().addMoney(-money)) {
+                        System.out.println("Money withdrawn successfully!");
+                    } else {
+                        System.out.println("Failed to withdraw money");
+                    }
+                }
+            } else if (answer == 2) {
+                System.out.print("Would you like to deposit to your (c)hecking or (s)avings account?: ");
+                String ans = s.nextLine();
+                while (!ans.toLowerCase().equals("c") && !ans.toLowerCase().equals("s") && !ans.toLowerCase().equals("checking") && !ans.toLowerCase().equals("savings")) {
+                    System.out.print("Please input a valid choice: ");
+                    ans = s.nextLine();
+                }
+                System.out.print("How much would you like to deposit?: ");
+                int money = Integer.parseInt(s.nextLine());
+                if (ans.toLowerCase().equals("c")) {
+                    if (c.getChecking().addMoney(money)) {
+                        System.out.println("Money deposited successfully!");
+                    } else {
+                        System.out.println("Failed to deposit money");
+                    }
+                } else if (ans.toLowerCase().equals("s")) {
+                    if (c.getSavings().addMoney(money)) {
+                        System.out.println("Money deposited successfully!");
+                    } else {
+                        System.out.println("Failed to deposit money");
+                    }
+                }
+            } else if (answer == 3) {
+
+            }
+        }
     }
 
     public void decision() {

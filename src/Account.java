@@ -10,8 +10,12 @@ public class Account {
         this.type = type;
     }
 
-    public void addMoney(double add) { //make add negative to subtract
-        balance += round(add);
+    public boolean addMoney(double add) { //make add negative to subtract
+        if (balance + round(add) > 0) {
+            balance += round(add);
+            return true;
+        }
+        return false;
     }
 
     public static double round(double round) {

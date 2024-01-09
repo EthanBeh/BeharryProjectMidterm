@@ -24,4 +24,11 @@ public class Customer {
     public int getPin() {
         return pin;
     }
+
+    public Account getChecking() {
+        return checking;
+    }
+    public Account getSavings() {
+        return saving;
+    }
 }
