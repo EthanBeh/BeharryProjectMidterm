@@ -18,6 +18,10 @@ public class Account {
         return false;
     }
 
+    public double getBalance() {
+        return balance;
+    }
+
     public static double round(double round) {
         return Math.round(round * 100) / 100.00;
     }

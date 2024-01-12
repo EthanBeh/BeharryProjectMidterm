@@ -13,10 +13,14 @@ public class ATM {
 
     public int start() {
         System.out.println("Hello, welcome to the Bank of Beharria ATM\nPlease enter your card");
-        //incluye un opcion para espanol :) //y tmb quiza un conlang >:) pa que es de un pais ficcional pues debe haber una lingua ficcional -- lo voy a considerar
+        //incluye un opcion para espanol :) //y tmb quiza un conlang >:) pq si es de un pais ficcional debe haber una lingua ficcional q no
         System.out.println("If you don't have a BoB card, please press 1");
         String answer = s.nextLine();
-        if (answer.equals("1")) {
+        while (answer.equals("1")) {
+            System.out.println("That is now a valid BoB card, please try again or press 1 to create an account;");
+            answer = s.nextLine();
+        }
+        if (answer.equals("1")) { //needed for line 40 to work properly
             System.out.print("Would you like to create an account with us? (y/n): ");
             answer = s.nextLine();
             while (!answer.equals("n") && !answer.equals("no") && !answer.equals("y") && !answer.equals("yes")) {
@@ -31,7 +35,7 @@ public class ATM {
                 c.setPin(s.nextInt());
             } else if (answer.equals("n") || answer.equals("no")) {
                 System.out.println("Thank you! Goodbye!");
-                return 1; //added return type to be able to finish method execution early
+                return 1; //added return to be able to finish method execution early
             }
             start();
         }
@@ -68,7 +72,7 @@ public class ATM {
     public void interFace() {
         System.out.println("What would you like to do today?");
         System.out.println("1. Withdraw money\n2. Deposit money\n3. Transfer money between account\n4. Get account balances\n5. Get transaction history\n6. Change PIN\n7. Exit");
-        int answer = Integer.parseInt(s.nextLine());
+        int answer = tryForInt();
         while (answer != 7) {
             if (answer == 1) {
                 System.out.print("Would you like to withdraw from your (c)hecking or (s)avings account?: ");
@@ -78,16 +82,21 @@ public class ATM {
                     ans = s.nextLine();
                 }
                 System.out.print("How much would you like to withdraw?: ");
-                int money = Integer.parseInt(s.nextLine());
+                int money = tryForInt();
+                if (money % 5 != 0) {
+                    System.out.println("That's not a valid amount, we are only able to give out bills of $5 or $20 value, sorry for the inconvenience");
+                    System.out.print("Please try again: ");
+                    money = Integer.parseInt(s.nextLine());
+                }
                 if (ans.toLowerCase().equals("c")) {
                     if (c.getChecking().addMoney(-money)) {
-                        System.out.println("Money withdrawn successfully!");
+                        System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + "$5 bills successfully withdrawn from Checking account");
                     } else {
                         System.out.println("Failed to withdraw money");
                     }
                 } else if (ans.toLowerCase().equals("s")) {
                     if (c.getSavings().addMoney(-money)) {
-                        System.out.println("Money withdrawn successfully!");
+                        System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + "$5 bills successfully withdrawn from Savings account");
                     } else {
                         System.out.println("Failed to withdraw money");
                     }
@@ -100,7 +109,7 @@ public class ATM {
                     ans = s.nextLine();
                 }
                 System.out.print("How much would you like to deposit?: ");
-                int money = Integer.parseInt(s.nextLine());
+                double money = tryForDouble();
                 if (ans.toLowerCase().equals("c")) {
                     if (c.getChecking().addMoney(money)) {
                         System.out.println("Money deposited successfully!");
@@ -115,6 +124,40 @@ public class ATM {
                     }
                 }
             } else if (answer == 3) {
+                System.out.print("From which account would you like to transfer money?");
+                String transfer = s.nextLine();
+                while (!transfer.equalsIgnoreCase("savings") && !transfer.equalsIgnoreCase("checking")) {
+                    System.out.println("That's not a valid account, you have only a Savings and Checking account");
+                }
+                Account.Type from = null;
+                if (transfer.equalsIgnoreCase("savings")) {
+                    from = Account.Type.Savings;
+                    System.out.print("To which account would you like to transfer money?");
+                    transfer = s.nextLine();
+                    while (!transfer.equalsIgnoreCase("checking")) {
+                        System.out.println("That's not a valid account, you have only a Checking account to transfer to");
+                    }
+                    Account.Type to = Account.Type.Checking;
+                } else if (transfer.equalsIgnoreCase("checking")) {
+                    from = Account.Type.Checking;
+                    System.out.print("To which account would you like to transfer money?");
+                    transfer = s.nextLine();
+                    while (!transfer.equalsIgnoreCase("savings")) {
+                        System.out.println("That's not a valid account, you have only a Savings account to transfer to");
+                    }
+                    Account.Type to = Account.Type.Savings;
+                }
+                System.out.print("And how much would you like to deposit?: ");
+                double amt = tryForDouble();
+                boolean success = c.transferFunds(amt, from);
+                if (success) {
+                    System.out.println("Funds deposited successfully!");
+                } else {
+                    System.out.println("Unable to deposit funds");
+                }
+            } else if (answer == 4) {
+                System.out.println("Savings account balance: " + Account.round(c.getSavings().getBalance()) + "\nChecking account balance: " + Account.round(c.getChecking().getBalance()));
+            } else if (answer == 5) {
 
             }
         }
@@ -122,5 +165,33 @@ public class ATM {
 
     public void decision() {
         //finish with screen clear
+    }
+
+    public static double tryForDouble() {
+        Scanner s = new Scanner(System.in);
+        boolean r = true;
+        while (r) {
+            try {
+                double amt = Double.parseDouble(s.nextLine());
+                return amt;
+            } catch (Exception e) {
+                System.out.print("That's an invalid amount, please try again");
+            }
+        }
+        return 0;
+    }
+
+    public static int tryForInt() {
+        Scanner s = new Scanner(System.in);
+        boolean r = true;
+        while (r) {
+            try {
+                int amt = Integer.parseInt(s.nextLine());
+                return amt;
+            } catch (Exception e) {
+                System.out.print("That's an invalid amount, please try again");
+            }
+        }
+        return 0;
     }
 }

@@ -31,4 +31,22 @@ public class Customer {
     public Account getSavings() {
         return saving;
     }
+
+    public boolean transferFunds(double amt, Account.Type from) {
+        if (from == Account.Type.Checking) {
+            boolean done = checking.addMoney(-amt);
+            if (!done) {
+                return false;
+            }
+            saving.addMoney(amt);
+            return true;
+        } else if (from == Account.Type.Savings){
+            boolean done = saving.addMoney(-amt);
+            if (!done) {
+                return false;
+            }
+            checking.addMoney(amt);
+            return true;
+        } return false;
+    }
 }
