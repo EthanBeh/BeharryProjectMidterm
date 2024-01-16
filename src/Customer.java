@@ -49,4 +49,11 @@ public class Customer {
             return true;
         } return false;
     }
+
+    public boolean checkPin(int i) {
+        if (i == pin) {
+            return true;
+        }
+        return false;
+    }
 }
