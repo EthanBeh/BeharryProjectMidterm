@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7445b686-7f38-4562-a1dc-b1d9ccee408d" name="Changes" comment="">
+    <list default="true" id="7445b686-7f38-4562-a1dc-b1d9ccee408d" name="Changes" comment="final product PRE-DEBUGGING">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ATM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ATM.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer.java" afterDir="false" />
@@ -39,6 +39,14 @@
       <option name="presentableId" value="Default" />
       <updated>1704376089025</updated>
     </task>
+    <task id="LOCAL-00001" summary="final product PRE-DEBUGGING">
+      <created>1705501401216</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1705501401216</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -51,5 +59,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="final product PRE-DEBUGGING" />
+    <option name="LAST_COMMIT_MESSAGE" value="final product PRE-DEBUGGING" />
   </component>
 </project>

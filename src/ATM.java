@@ -16,12 +16,12 @@ public class ATM {
         //incluye un opcion para espanol :) //y tmb quiza un conlang >:) pq si es de un pais ficcional debe haber una lingua ficcional q no
         System.out.println("If you don't have a BoB card, please press 1");
         String answer = s.nextLine();
-        while (!answer.equals("1") && c.getChecking() == null && c.getSavings() == null) {
-            System.out.println("That is not a valid BoB card, please try again or press 1 to create an account;");
+        while (answer.equals("1") && c != null) { //making it so that they can't recreate an account <:)
+            System.out.println("You already have an account with us!");
             answer = s.nextLine();
         }
         if (answer.equals("1")) { //needed for line 40 to work properly
-            System.out.print("Would you like to create an account with us? (y/n): ");
+            System.out.print("\nWould you like to create an account with us? (y/n): ");
             answer = s.nextLine();
             while (!answer.equals("n") && !answer.equals("no") && !answer.equals("y") && !answer.equals("yes")) {
                 System.out.println("That's not a valid option, please try again: ");
@@ -31,8 +31,9 @@ public class ATM {
                 c = new Customer();
                 System.out.print("Please enter the name for your account: ");
                 c.setName(s.nextLine());
-                System.out.print("Please enter the PIN you would like for your account");
+                System.out.print("Please enter the PIN you would like for your account: ");
                 c.setPin(tryForInt());
+                System.out.println("\nResetting...\n");
             } else if (answer.equals("n") || answer.equals("no")) {
                 System.out.println("Thank you! Goodbye!");
                 return 1; //added return to be able to finish method execution early
@@ -228,7 +229,7 @@ public class ATM {
                 double amt = Double.parseDouble(s.nextLine());
                 return amt;
             } catch (Exception e) {
-                System.out.print("That's an invalid number, please try again");
+                System.out.print("That's an invalid number, please try again: ");
             }
         }
         return 0;
@@ -242,7 +243,7 @@ public class ATM {
                 int amt = Integer.parseInt(s.nextLine());
                 return amt;
             } catch (Exception e) {
-                System.out.print("That's an invalid number, please try again");
+                System.out.print("That's an invalid number, please try again: ");
             }
         }
         return 0;

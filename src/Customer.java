@@ -25,6 +25,11 @@ public class Customer {
         return pin;
     }
 
+    public boolean hasAccts() {
+        if (checking != null && saving != null) {
+            return true;
+        } return false;
+    }
     public Account getChecking() {
         return checking;
     }
