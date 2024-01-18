@@ -5,15 +5,15 @@ public class ATM {
     private Customer c;
     private TransactionHistory h;
     private final Scanner s = new Scanner(System.in);
+    private static boolean doInterface = true;
 
     public ATM() {
         c = null;
         h = new TransactionHistory();
     }
 
-    public int start() {
+    public void start() {
         System.out.println("Hello, welcome to the Bank of Beharria ATM\nPlease enter your card");
-        //incluye un opcion para espanol :) //y tmb quiza un conlang >:) pq si es de un pais ficcional debe haber una lingua ficcional q no
         System.out.println("If you don't have a BoB card, please press 1");
         String answer = s.nextLine();
         while (answer.equals("1") && c != null) { //making it so that they can't recreate an account <:)
@@ -36,7 +36,8 @@ public class ATM {
                 System.out.println("\nResetting...\n");
             } else if (answer.equals("n") || answer.equals("no")) {
                 System.out.println("Thank you! Goodbye!");
-                return 1; //added return to be able to finish method execution early
+                doInterface = false;
+                return;
             }
             start();
         }
@@ -47,7 +48,8 @@ public class ATM {
                 System.out.print("That was incorrect, please try again: ");
             }
             if (ans == 1) {
-                return 2;
+                doInterface = false;
+                return;
             }
         } else if (c != null && c.getPin() == 1) {
             System.out.print("Please enter your pin: (if you would like to cancel this interaction, please press 0) ");
@@ -56,7 +58,8 @@ public class ATM {
                 System.out.print("That was incorrect, please try again: ");
             }
             if (ans == 0) {
-                return 2;
+                doInterface = false;
+                return;
             }
         } else {
             System.out.println("You don't have an account with us! Please try again.");
@@ -66,8 +69,9 @@ public class ATM {
             System.out.println();
             start();
         }
-        interFace();
-        return 0;
+        if (doInterface) {
+            interFace();
+        }
     }
 
     public void interFace() {
@@ -166,6 +170,7 @@ public class ATM {
                 } else if (answer == 4) {
                     System.out.println("Savings account balance: " + Account.round(c.getSavings().getBalance()) + "\nChecking account balance: " + Account.round(c.getChecking().getBalance()));
                 } else if (answer == 5) {
+                    System.out.println(h.getHistory());
                     //USE THE SPLIT METHOD !!! dfyg.split("\n"); should work
                 } else if (answer == 6) {
                     System.out.print("Before changing your pin, please enter your current pin: ");
@@ -213,12 +218,11 @@ public class ATM {
             } else if (answer != 1 && answer != 2 && answer != 3 && answer != 4 && answer != 5 && answer != 6) {
                 System.out.println("Please enter an integer between 1 and 7");
                 answer = tryForInt();
+            } else {
+                System.out.println("What would you like to do next?\n1. Withdraw money\n2. Deposit money\n3. Transfer money between account\n4. Get account balances\n5. Get transaction history\n6. Change PIN\n7. Exit\n");
+                answer = tryForInt();
             }
         }
-    }
-
-    public void decision() {
-        //finish with screen clear
     }
 
     public static double tryForDouble() {
