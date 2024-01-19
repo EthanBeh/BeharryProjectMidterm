@@ -42,24 +42,28 @@ public class ATM {
             start();
         }
         if (c != null && c.getPin() != 1) {
-            System.out.print("Please enter your pin: (if you would like to cancel this interaction, please press 1) ");
-            int ans = tryForInt();
-            while (ans != c.getPin() && ans != 1) {
-                System.out.print("That was incorrect, please try again: ");
-            }
-            if (ans == 1) {
-                doInterface = false;
-                return;
+            if (doInterface) {
+                System.out.print("Please enter your pin: (if you would like to cancel this interaction, please press 1) ");
+                int ans = tryForInt();
+                while (ans != c.getPin() && ans != 1) {
+                    System.out.print("That was incorrect, please try again: ");
+                }
+                if (ans == 1) {
+                    doInterface = false;
+                    return;
+                }
             }
         } else if (c != null && c.getPin() == 1) {
-            System.out.print("Please enter your pin: (if you would like to cancel this interaction, please press 0) ");
-            int ans = tryForInt();
-            while (ans != 1 && ans != 0) {
-                System.out.print("That was incorrect, please try again: ");
-            }
-            if (ans == 0) {
-                doInterface = false;
-                return;
+            if (doInterface) {
+                System.out.print("Please enter your pin: (if you would like to cancel this interaction, please press 0) ");
+                int ans = tryForInt();
+                while (ans != 1 && ans != 0) {
+                    System.out.print("That was incorrect, please try again: ");
+                }
+                if (ans == 0) {
+                    doInterface = false;
+                    return;
+                }
             }
         } else {
             System.out.println("You don't have an account with us! Please try again.");
@@ -70,6 +74,7 @@ public class ATM {
             start();
         }
         if (doInterface) {
+            System.out.println();
             interFace();
         }
     }
@@ -78,151 +83,152 @@ public class ATM {
         System.out.println("What would you like to do today?");
         System.out.println("1. Withdraw money\n2. Deposit money\n3. Transfer money between account\n4. Get account balances\n5. Get transaction history\n6. Change PIN\n7. Exit");
         int answer = tryForInt();
+        System.out.println();
         while (answer != 7) {
-            System.out.print("Please enter your pin: ");
-            if (c.checkPin(tryForInt())) {
-                if (answer == 1) {
-                    System.out.print("Would you like to withdraw from your (c)hecking or (s)avings account?: ");
-                    String ans = s.nextLine();
-                    while (!ans.toLowerCase().equals("c") && !ans.toLowerCase().equals("s") && !ans.toLowerCase().equals("checking") && !ans.toLowerCase().equals("savings")) {
-                        System.out.print("Please input a valid choice: ");
-                        ans = s.nextLine();
-                    }
-                    System.out.print("How much would you like to withdraw?: ");
-                    int money = tryForInt();
-                    if (money % 5 != 0) {
-                        System.out.println("That's not a valid amount, we are only able to give out bills of $5 or $20 value, sorry for the inconvenience");
-                        System.out.print("Please try again: ");
-                        money = tryForInt();
-                    }
-                    if (ans.toLowerCase().equals("c")) {
-                        if (c.getChecking().addMoney(-money)) {
-                            System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + "$5 bills successfully withdrawn from Checking account");
-                            TransactionHistory.logDeposit(c, money, Account.Type.Checking);
-                        } else {
-                            System.out.println("Failed to withdraw money");
-                        }
-                    } else if (ans.toLowerCase().equals("s")) {
-                        if (c.getSavings().addMoney(-money)) {
-                            System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + "$5 bills successfully withdrawn from Savings account");
-                            TransactionHistory.logDeposit(c, money, Account.Type.Savings);
-                        } else {
-                            System.out.println("Failed to withdraw money");
-                        }
-                    }
-                } else if (answer == 2) {
-                    System.out.print("Would you like to deposit to your (c)hecking or (s)avings account?: ");
-                    String ans = s.nextLine();
-                    while (!ans.toLowerCase().equals("c") && !ans.toLowerCase().equals("s") && !ans.toLowerCase().equals("checking") && !ans.toLowerCase().equals("savings")) {
-                        System.out.print("Please input a valid choice: ");
-                        ans = s.nextLine();
-                    }
-                    System.out.print("How much would you like to deposit?: ");
-                    double money = tryForDouble();
-                    if (ans.toLowerCase().equals("c")) {
-                        if (c.getChecking().addMoney(money)) {
-                            System.out.println("Money deposited successfully!");
-                            TransactionHistory.logDeposit(c, money, Account.Type.Checking);
-                        } else {
-                            System.out.println("Failed to deposit money");
-                        }
-                    } else if (ans.toLowerCase().equals("s")) {
-                        if (c.getSavings().addMoney(money)) {
-                            System.out.println("Money deposited successfully!");
-                            TransactionHistory.logDeposit(c, money, Account.Type.Savings);
-                        } else {
-                            System.out.println("Failed to deposit money");
-                        }
-                    }
-                } else if (answer == 3) {
-                    System.out.print("From which account would you like to transfer money?");
-                    String transfer = s.nextLine();
-                    while (!transfer.equalsIgnoreCase("savings") && !transfer.equalsIgnoreCase("checking")) {
-                        System.out.println("That's not a valid account, you have only a Savings and Checking account");
-                    }
-                    Account.Type from = null;
-                    if (transfer.equalsIgnoreCase("savings")) {
-                        from = Account.Type.Savings;
-                        System.out.print("To which account would you like to transfer money?");
-                        transfer = s.nextLine();
-                        while (!transfer.equalsIgnoreCase("checking")) {
-                            System.out.println("That's not a valid account, you have only a Checking account to transfer to");
-                        }
-                        Account.Type to = Account.Type.Checking;
-                    } else if (transfer.equalsIgnoreCase("checking")) {
-                        from = Account.Type.Checking;
-                        System.out.print("To which account would you like to transfer money?");
-                        transfer = s.nextLine();
-                        while (!transfer.equalsIgnoreCase("savings")) {
-                            System.out.println("That's not a valid account, you have only a Savings account to transfer to");
-                        }
-                        Account.Type to = Account.Type.Savings;
-                    }
-                    System.out.print("And how much would you like to deposit?: ");
-                    double amt = tryForDouble();
-                    boolean success = c.transferFunds(amt, from);
-                    if (success) {
-                        System.out.println("Funds transferred successfully!");
-                        TransactionHistory.logTransfer(c, amt, from);
-                    } else {
-                        System.out.println("Unable to transfer funds");
-                    }
-                } else if (answer == 4) {
-                    System.out.println("Savings account balance: " + Account.round(c.getSavings().getBalance()) + "\nChecking account balance: " + Account.round(c.getChecking().getBalance()));
-                } else if (answer == 5) {
-                    System.out.println(h.getHistory());
-                    //USE THE SPLIT METHOD !!! dfyg.split("\n"); should work
-                } else if (answer == 6) {
-                    System.out.print("Before changing your pin, please enter your current pin: ");
-                    int pin = tryForInt();
-                    boolean r = false; //just a way for them to choose that they don't actually want to change their pin
-                    while (pin != c.getPin() && !r) {
-                        System.out.println("That's incorrect, please try again\n(if you've changed your mind about changing your pin, please enter any negative number)");
-                        pin = tryForInt();
-                        if (pin < 0) {
-                            r = true;
-                        }
-                    }
-                    int oldPin = pin;
-                    if (r) {
-                        continue;
-                    }
-                    System.out.print("Please enter your new pin");
-                    int newPin = tryForInt();
-                    while (newPin == c.getPin() && !r) {
-                        System.out.println("Your old pin can't be the same as your new pin!\n(If you've changed your mind about changing your pin, please enter any negative number)");
-                        newPin = tryForInt();
-                        if (newPin < 0) {
-                            r = true;
-                        }
-                    }
-                    if (r) {
-                        continue;
-                    }
-                    System.out.print("Please reënter that pin");
-                    int checkPin = tryForInt();
-                    while (checkPin != newPin && !r) {
-                        System.out.println("Those pins aren't the same, please try again\n(If you've changed your mind about changing your pin, please enter any negative number)");
-                        checkPin = tryForInt();
-                        if (checkPin < 0) {
-                            r = true;
-                        }
-                    }
-                    c.setPin(newPin);
-                    System.out.println("Pin changed successfully to " + newPin + "!");
-                    TransactionHistory.logPinChange(c, oldPin, newPin);
-                }
-            }
-            if (answer == 7) {
-                break;
-            } else if (answer != 1 && answer != 2 && answer != 3 && answer != 4 && answer != 5 && answer != 6) {
-                System.out.println("Please enter an integer between 1 and 7");
+            if (answer <= 0 || answer >= 7) {
+                System.out.print("That's not a valid option, please try again");
                 answer = tryForInt();
             } else {
-                System.out.println("What would you like to do next?\n1. Withdraw money\n2. Deposit money\n3. Transfer money between account\n4. Get account balances\n5. Get transaction history\n6. Change PIN\n7. Exit\n");
-                answer = tryForInt();
+                System.out.print("Please enter your pin: ");
+                if (c.checkPin(tryForInt())) {
+                    if (answer == 1) {
+                        System.out.print("Would you like to withdraw from your (c)hecking or (s)avings account?: ");
+                        String ans = s.nextLine();
+                        while (!ans.toLowerCase().equals("c") && !ans.toLowerCase().equals("s") && !ans.toLowerCase().equals("checking") && !ans.toLowerCase().equals("savings")) {
+                            System.out.print("Please input a valid choice: ");
+                            ans = s.nextLine();
+                        }
+                        System.out.print("How much would you like to withdraw?: ");
+                        int money = tryForInt();
+                        if (money % 5 != 0) {
+                            System.out.println("That's not a valid amount, we are only able to give out bills of $5 or $20 value, sorry for the inconvenience");
+                            System.out.print("Please try again: ");
+                            money = tryForInt();
+                        }
+                        if (ans.toLowerCase().equals("c")) {
+                            if (c.getChecking().addMoney(-money)) {
+                                System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + "$5 bills successfully withdrawn from Checking account");
+                                TransactionHistory.logDeposit(c, money, Account.Type.Checking);
+                            } else {
+                                System.out.println("Failed to withdraw money");
+                            }
+                        } else if (ans.toLowerCase().equals("s")) {
+                            if (c.getSavings().addMoney(-money)) {
+                                System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + "$5 bills successfully withdrawn from Savings account");
+                                TransactionHistory.logDeposit(c, money, Account.Type.Savings);
+                            } else {
+                                System.out.println("Failed to withdraw money");
+                            }
+                        }
+                    } else if (answer == 2) {
+                        System.out.print("Would you like to deposit to your (c)hecking or (s)avings account?: ");
+                        String ans = s.nextLine();
+                        while (!ans.toLowerCase().equals("c") && !ans.toLowerCase().equals("s") && !ans.toLowerCase().equals("checking") && !ans.toLowerCase().equals("savings")) {
+                            System.out.print("Please input a valid choice: ");
+                            ans = s.nextLine();
+                        }
+                        System.out.print("How much would you like to deposit?: ");
+                        double money = tryForDouble();
+                        if (ans.toLowerCase().equals("c")) {
+                            if (c.getChecking().addMoney(money)) {
+                                System.out.println("Money deposited successfully!");
+                                TransactionHistory.logDeposit(c, money, Account.Type.Checking);
+                            } else {
+                                System.out.println("Failed to deposit money");
+                            }
+                        } else if (ans.toLowerCase().equals("s")) {
+                            if (c.getSavings().addMoney(money)) {
+                                System.out.println("Money deposited successfully!");
+                                TransactionHistory.logDeposit(c, money, Account.Type.Savings);
+                            } else {
+                                System.out.println("Failed to deposit money");
+                            }
+                        }
+                    } else if (answer == 3) {
+                        System.out.print("From which account would you like to transfer money?");
+                        String transfer = s.nextLine();
+                        while (!transfer.equalsIgnoreCase("savings") && !transfer.equalsIgnoreCase("checking")) {
+                            System.out.println("That's not a valid account, you have only a Savings and Checking account");
+                        }
+                        Account.Type from = null;
+                        if (transfer.equalsIgnoreCase("savings")) {
+                            from = Account.Type.Savings;
+                            System.out.print("To which account would you like to transfer money?");
+                            transfer = s.nextLine();
+                            while (!transfer.equalsIgnoreCase("checking")) {
+                                System.out.println("That's not a valid account, you have only a Checking account to transfer to");
+                            }
+                            Account.Type to = Account.Type.Checking;
+                        } else if (transfer.equalsIgnoreCase("checking")) {
+                            from = Account.Type.Checking;
+                            System.out.print("To which account would you like to transfer money?");
+                            transfer = s.nextLine();
+                            while (!transfer.equalsIgnoreCase("savings")) {
+                                System.out.println("That's not a valid account, you have only a Savings account to transfer to");
+                            }
+                            Account.Type to = Account.Type.Savings;
+                        }
+                        System.out.print("And how much would you like to deposit?: ");
+                        double amt = tryForDouble();
+                        boolean success = c.transferFunds(amt, from);
+                        if (success) {
+                            System.out.println("Funds transferred successfully!");
+                            TransactionHistory.logTransfer(c, amt, from);
+                        } else {
+                            System.out.println("Unable to transfer funds");
+                        }
+                    } else if (answer == 4) {
+                        System.out.println("Savings account balance: " + Account.round(c.getSavings().getBalance()) + "\nChecking account balance: " + Account.round(c.getChecking().getBalance()));
+                    } else if (answer == 5) {
+                        System.out.println(h.getHistory());
+                        //USE THE SPLIT METHOD !!! dfyg.split("\n"); should work
+                    } else if (answer == 6) {
+                        System.out.print("Before changing your pin, please enter your current pin: ");
+                        int pin = tryForInt();
+                        boolean r = false; //just a way for them to choose that they don't actually want to change their pin
+                        while (pin != c.getPin() && !r) {
+                            System.out.println("That's incorrect, please try again\n(if you've changed your mind about changing your pin, please enter any negative number)");
+                            pin = tryForInt();
+                            if (pin < 0) {
+                                r = true;
+                            }
+                        }
+                        int oldPin = pin;
+                        if (r) {
+                            continue;
+                        }
+                        System.out.print("Please enter your new pin");
+                        int newPin = tryForInt();
+                        while (newPin == c.getPin() && !r) {
+                            System.out.println("Your old pin can't be the same as your new pin!\n(If you've changed your mind about changing your pin, please enter any negative number)");
+                            newPin = tryForInt();
+                            if (newPin < 0) {
+                                r = true;
+                            }
+                        }
+                        if (r) {
+                            continue;
+                        }
+                        System.out.print("Please reënter that pin");
+                        int checkPin = tryForInt();
+                        while (checkPin != newPin && !r) {
+                            System.out.println("Those pins aren't the same, please try again\n(If you've changed your mind about changing your pin, please enter any negative number)");
+                            checkPin = tryForInt();
+                            if (checkPin < 0) {
+                                r = true;
+                            }
+                        }
+                        c.setPin(newPin);
+                        System.out.println("Pin changed successfully to " + newPin + "!");
+                        TransactionHistory.logPinChange(c, oldPin, newPin);
+                    }
+                    System.out.println("What would you like to do next?\n1. Withdraw money\n2. Deposit money\n3. Transfer money between account\n4. Get account balances\n5. Get transaction history\n6. Change PIN\n7. Exit\n");
+                    answer = tryForInt();
+                }
+                System.out.println("That pin is incorrect, please try again: ");
             }
         }
+        System.out.println("Thank you, goodbye!");
     }
 
     public static double tryForDouble() {
