@@ -75,6 +75,7 @@ public class ATM {
         }
         if (doInterface) {
             System.out.println();
+            doInterface = false;
             interFace();
         }
     }
@@ -86,7 +87,7 @@ public class ATM {
         System.out.println();
         while (answer != 7) {
             if (answer <= 0 || answer >= 7) {
-                System.out.print("That's not a valid option, please try again");
+                System.out.print("That's not a valid option, please try again ");
                 answer = tryForInt();
             } else {
                 System.out.print("Please enter your pin: ");
@@ -228,7 +229,7 @@ public class ATM {
                 System.out.println("That pin is incorrect, please try again: ");
             }
         }
-        System.out.println("Thank you, goodbye!");
+        System.out.println("\nThank you, goodbye!");
     }
 
     public static double tryForDouble() {
