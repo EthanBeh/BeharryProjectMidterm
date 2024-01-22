@@ -1,6 +1,6 @@
 public class Account {
     public enum Type {
-        Savings, Checking
+        Savings, Checking;
     }
 
     private Type type;

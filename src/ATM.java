@@ -114,14 +114,14 @@ public class ATM {
                         if (ans.toLowerCase().equals("c")) {
                             if (c.getChecking().addMoney(-money)) {
                                 System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + " $5 bills successfully withdrawn from Checking account");
-                                TransactionHistory.logWithdrawal(c, money, Account.Type.Checking);
+                                System.out.println(TransactionHistory.logWithdrawal(c, money, Account.Type.Checking));
                             } else {
                                 System.out.println("Failed to withdraw money");
                             }
                         } else if (ans.toLowerCase().equals("s")) {
                             if (c.getSavings().addMoney(-money)) {
                                 System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + " $5 bills successfully withdrawn from Savings account");
-                                TransactionHistory.logWithdrawal(c, money, Account.Type.Savings);
+                                System.out.println(TransactionHistory.logWithdrawal(c, money, Account.Type.Savings));
                             } else {
                                 System.out.println("Failed to withdraw money");
                             }
@@ -139,14 +139,14 @@ public class ATM {
                         if (ans.toLowerCase().equals("c")) {
                             if (c.getChecking().addMoney(money)) {
                                 System.out.println("Money deposited successfully!");
-                                TransactionHistory.logDeposit(c, money, Account.Type.Checking);
+                                System.out.println(TransactionHistory.logDeposit(c, money, Account.Type.Checking));
                             } else {
                                 System.out.println("Failed to deposit money");
                             }
                         } else if (ans.toLowerCase().equals("s")) {
                             if (c.getSavings().addMoney(money)) {
                                 System.out.println("Money deposited successfully!");
-                                TransactionHistory.logDeposit(c, money, Account.Type.Savings);
+                                System.out.println(TransactionHistory.logDeposit(c, money, Account.Type.Savings));
                             } else {
                                 System.out.println("Failed to deposit money");
                             }
@@ -182,16 +182,15 @@ public class ATM {
                         double amt = tryForDouble();
                         boolean success = c.transferFunds(amt, from);
                         if (success) {
-                            System.out.println("Funds transferred successfully!");
-                            TransactionHistory.logTransfer(c, amt, from);
+                            System.out.println(TransactionHistory.logTransfer(c, amt, from));
                         } else {
                             System.out.println("Unable to transfer funds");
                         }
                     } else if (answer == 4) {
                         System.out.println("Savings account balance: " + Account.round(c.getSavings().getBalance()) + "\nChecking account balance: " + Account.round(c.getChecking().getBalance()));
+                        System.out.println(TransactionHistory.getStatus(c));
                     } else if (answer == 5) {
-                        System.out.println(h.getHistory());
-                        //USE THE SPLIT METHOD !!! dfyg.split("\n"); should work
+                        System.out.println(h.getHistory(c));
                     } else if (answer == 6) {
                         System.out.print("Before changing your pin, please enter your current pin: ");
                         int pin = tryForInt();
@@ -219,7 +218,7 @@ public class ATM {
                         if (r) {
                             continue;
                         }
-                        System.out.print("Please reënter that pin");
+                        System.out.print("Please reënter that pin ");
                         int checkPin = tryForInt();
                         while (checkPin != newPin && !r) {
                             System.out.println("Those pins aren't the same, please try again\n(If you've changed your mind about changing your pin, please enter any negative number)");
@@ -230,7 +229,7 @@ public class ATM {
                         }
                         c.setPin(newPin);
                         System.out.println("Pin changed successfully to " + newPin + "!");
-                        TransactionHistory.logPinChange(c, oldPin, newPin);
+                        System.out.println(TransactionHistory.logPinChange(c, oldPin, newPin));
                     }
                     System.out.println("What would you like to do next?\n1. Withdraw money\n2. Deposit money\n3. Transfer money between account\n4. Get account balances\n5. Get transaction history\n6. Change PIN\n7. Exit\n");
                     answer = tryForInt();
