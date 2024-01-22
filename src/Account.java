@@ -11,7 +11,7 @@ public class Account {
     }
 
     public boolean addMoney(double add) { //make add negative to subtract
-        if (balance + round(add) > 0) {
+        if (balance + round(add) >= 0) {
             balance += round(add);
             return true;
         }

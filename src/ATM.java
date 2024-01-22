@@ -101,26 +101,32 @@ public class ATM {
                         }
                         System.out.print("How much would you like to withdraw?: ");
                         int money = tryForInt();
-                        if (money % 5 != 0) {
+                        boolean loop =  true;
+                        while (money % 5 != 0 && loop) {
                             System.out.println("That's not a valid amount, we are only able to give out bills of $5 or $20 value, sorry for the inconvenience");
                             System.out.print("Please try again: ");
+                            System.out.println("(To cancel this interaction, please enter \"1\"");
                             money = tryForInt();
+                            if (money == 1) {
+                                loop = false;
+                            }
                         }
                         if (ans.toLowerCase().equals("c")) {
                             if (c.getChecking().addMoney(-money)) {
-                                System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + "$5 bills successfully withdrawn from Checking account");
+                                System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + " $5 bills successfully withdrawn from Checking account");
                                 TransactionHistory.logDeposit(c, money, Account.Type.Checking);
                             } else {
                                 System.out.println("Failed to withdraw money");
                             }
                         } else if (ans.toLowerCase().equals("s")) {
                             if (c.getSavings().addMoney(-money)) {
-                                System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + "$5 bills successfully withdrawn from Savings account");
+                                System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + " $5 bills successfully withdrawn from Savings account");
                                 TransactionHistory.logDeposit(c, money, Account.Type.Savings);
                             } else {
                                 System.out.println("Failed to withdraw money");
                             }
                         }
+                        System.out.println();
                     } else if (answer == 2) {
                         System.out.print("Would you like to deposit to your (c)hecking or (s)avings account?: ");
                         String ans = s.nextLine();
@@ -146,10 +152,11 @@ public class ATM {
                             }
                         }
                     } else if (answer == 3) {
-                        System.out.print("From which account would you like to transfer money?");
+                        System.out.print("From which account would you like to transfer money? (c/s) ");
                         String transfer = s.nextLine();
-                        while (!transfer.equalsIgnoreCase("savings") && !transfer.equalsIgnoreCase("checking")) {
+                        while (!transfer.equalsIgnoreCase("savings") && !transfer.equalsIgnoreCase("checking") && !transfer.equalsIgnoreCase("s") && !transfer.equalsIgnoreCase("c")) {
                             System.out.println("That's not a valid account, you have only a Savings and Checking account");
+                            transfer = s.nextLine();
                         }
                         Account.Type from = null;
                         if (transfer.equalsIgnoreCase("savings")) {
@@ -225,8 +232,13 @@ public class ATM {
                     }
                     System.out.println("What would you like to do next?\n1. Withdraw money\n2. Deposit money\n3. Transfer money between account\n4. Get account balances\n5. Get transaction history\n6. Change PIN\n7. Exit\n");
                     answer = tryForInt();
+                } else {
+                    boolean pinCorrect = false;
+                    while (!pinCorrect) {
+                        System.out.println("That pin is incorrect, please try again: ");
+                        pinCorrect = c.checkPin(tryForInt());
+                    }
                 }
-                System.out.println("That pin is incorrect, please try again: ");
             }
         }
         System.out.println("\nThank you, goodbye!");
