@@ -105,7 +105,7 @@ public class ATM {
                         while (money % 5 != 0 && loop) {
                             System.out.println("That's not a valid amount, we are only able to give out bills of $5 or $20 value, sorry for the inconvenience");
                             System.out.print("Please try again: ");
-                            System.out.println("(To cancel this interaction, please enter \"1\"");
+                            System.out.println("(To cancel this interaction, please enter \"1\")");
                             money = tryForInt();
                             if (money == 1) {
                                 loop = false;
@@ -114,14 +114,14 @@ public class ATM {
                         if (ans.toLowerCase().equals("c")) {
                             if (c.getChecking().addMoney(-money)) {
                                 System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + " $5 bills successfully withdrawn from Checking account");
-                                TransactionHistory.logDeposit(c, money, Account.Type.Checking);
+                                TransactionHistory.logWithdrawal(c, money, Account.Type.Checking);
                             } else {
                                 System.out.println("Failed to withdraw money");
                             }
                         } else if (ans.toLowerCase().equals("s")) {
                             if (c.getSavings().addMoney(-money)) {
                                 System.out.println(money / 20 + " $20 dollar bills and " + (money % 20) / 5 + " $5 bills successfully withdrawn from Savings account");
-                                TransactionHistory.logDeposit(c, money, Account.Type.Savings);
+                                TransactionHistory.logWithdrawal(c, money, Account.Type.Savings);
                             } else {
                                 System.out.println("Failed to withdraw money");
                             }
@@ -159,20 +159,22 @@ public class ATM {
                             transfer = s.nextLine();
                         }
                         Account.Type from = null;
-                        if (transfer.equalsIgnoreCase("savings")) {
+                        if (transfer.equalsIgnoreCase("savings") || transfer.equalsIgnoreCase("s")) {
                             from = Account.Type.Savings;
-                            System.out.print("To which account would you like to transfer money?");
+                            System.out.print("To which account would you like to transfer money? ");
                             transfer = s.nextLine();
-                            while (!transfer.equalsIgnoreCase("checking")) {
+                            while (!transfer.equalsIgnoreCase("checking") || transfer.equalsIgnoreCase("c")) {
                                 System.out.println("That's not a valid account, you have only a Checking account to transfer to");
+                                transfer = s.nextLine();
                             }
                             Account.Type to = Account.Type.Checking;
-                        } else if (transfer.equalsIgnoreCase("checking")) {
+                        } else if (transfer.equalsIgnoreCase("checking") || transfer.equalsIgnoreCase("c")) {
                             from = Account.Type.Checking;
                             System.out.print("To which account would you like to transfer money?");
                             transfer = s.nextLine();
-                            while (!transfer.equalsIgnoreCase("savings")) {
+                            while (!transfer.equalsIgnoreCase("savings") || transfer.equalsIgnoreCase("s")) {
                                 System.out.println("That's not a valid account, you have only a Savings account to transfer to");
+                                transfer = s.nextLine();
                             }
                             Account.Type to = Account.Type.Savings;
                         }
@@ -205,7 +207,7 @@ public class ATM {
                         if (r) {
                             continue;
                         }
-                        System.out.print("Please enter your new pin");
+                        System.out.print("Please enter your new pin ");
                         int newPin = tryForInt();
                         while (newPin == c.getPin() && !r) {
                             System.out.println("Your old pin can't be the same as your new pin!\n(If you've changed your mind about changing your pin, please enter any negative number)");

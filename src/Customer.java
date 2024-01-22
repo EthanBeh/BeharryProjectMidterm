@@ -45,7 +45,7 @@ public class Customer {
             }
             saving.addMoney(amt);
             return true;
-        } else if (from == Account.Type.Savings){
+        } else if (from == Account.Type.Savings) {
             boolean done = saving.addMoney(-amt);
             if (!done) {
                 return false;

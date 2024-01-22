@@ -1,5 +1,5 @@
 public class TransactionHistory {
-    private static String hist;
+    private static String hist = "";
 
     public TransactionHistory() { }
 
@@ -20,7 +20,7 @@ public class TransactionHistory {
         } hist += " account.\n";
     }
     public static void logTransfer(Customer c, double value, Account.Type from) {
-        hist += "Customer " + c.getName() + "transfered $" + value + " from their ";
+        hist += "Customer " + c.getName() + " transfered $" + value + " from their ";
         if (from == Account.Type.Savings) {
             hist += "Savings account to their Checking";
         } else if (from == Account.Type.Checking) {
