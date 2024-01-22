@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7445b686-7f38-4562-a1dc-b1d9ccee408d" name="Changes" comment="I'M FINALLY DONE !!!!!!!">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ATM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ATM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TransactionHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TransactionHistory.java" afterDir="false" />
-    </list>
+    <list default="true" id="7445b686-7f38-4562-a1dc-b1d9ccee408d" name="Changes" comment="OK THIS TIME I'M DONE" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -87,7 +82,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705894450333</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="OK THIS TIME I'M DONE">
+      <option name="closed" value="true" />
+      <created>1705897151338</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1705897151338</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -106,6 +109,7 @@
     <MESSAGE value="debugging coming along coming along" />
     <MESSAGE value="finishing up debug, still in progress" />
     <MESSAGE value="I'M FINALLY DONE !!!!!!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="I'M FINALLY DONE !!!!!!!" />
+    <MESSAGE value="OK THIS TIME I'M DONE" />
+    <option name="LAST_COMMIT_MESSAGE" value="OK THIS TIME I'M DONE" />
   </component>
 </project>
